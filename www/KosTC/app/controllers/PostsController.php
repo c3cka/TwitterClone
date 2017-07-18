@@ -85,6 +85,12 @@ class PostsController extends ControllerBase
 
             $this->view->id = $post->id;
 
+            $tagArray = array();
+            foreach ($post->postTags as $postTag) {
+                $tagArray[] = $postTag->tags->tag;
+            }
+            $this->tag->setDefault("tags", implode(",", $tagArray));
+
             $this->tag->setDefault("id", $post->id);
             $this->tag->setDefault("users_id", $post->users_id);
             $this->tag->setDefault("title", $post->title);
@@ -144,6 +150,9 @@ class PostsController extends ControllerBase
 
             return;
         }
+
+        $tags = explode(",", $this->request->getPost("tags", "lower"));
+        $post->addTags($tags);
 
         $this->flash->success("post was created successfully");
 
@@ -207,6 +216,9 @@ class PostsController extends ControllerBase
 
             return;
         }
+
+        $tags = explode(",", $this->request->getPost("tags", "lower"));
+        $post->addTags($tags);
 
         $this->flash->success("post was updated successfully");
 

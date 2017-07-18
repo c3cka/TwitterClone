@@ -1,5 +1,7 @@
 <?php
 
+use Phalcon\Mvc\Model\Behavior\Timestampable;
+
 class Posts extends \Phalcon\Mvc\Model
 {
 
@@ -73,6 +75,20 @@ class Posts extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
+
+        $this->addBehavior(new Timestampable([
+                'beforeCreate' => [
+                    'field' => 'published',
+                    'format' => 'Y-m-d H:i:s'
+                ]]
+        ));
+        $this->addBehavior(new Timestampable([
+                'beforeUpdate' => [
+                    'field' => 'updated',
+                    'format' => 'Y-m-d H:i:s'
+                ]]
+        ));
+
         $this->setSchema("phalconblog");
         $this->hasMany('id', 'Comments', 'posts_id', ['alias' => 'Comments']);
         $this->hasMany('id', 'PostTags', 'posts_id', ['alias' => 'PostTags']);
@@ -111,4 +127,32 @@ class Posts extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+
+    public function addTags($tags)
+    {
+        foreach ($tags as $t) {
+            $t = trim($t);
+            $tag = Tags::findFirst(["tag = '$t'"]);
+            if (!$tag) {
+                $tag = new Tags();
+                $tag->tag = $t;
+                $tag->save();
+            }
+            $postTag = PostTags::findFirst([
+                    "conditions" => "$this->id = ?1 AND tags_id = ?2",
+                    "bind" => [
+                        1 => $this->id,
+                        2 => $tag->id
+                    ]
+                ]);
+            if (!$postTag) {
+                $postTag = new PostTags();
+                $postTag->posts_id = $this->id;
+                $postTag->tags_id = $tag->id;
+                $postTag->save();
+            }
+            unset($tag);
+            unset($postTag);
+        }
+    }
 }
