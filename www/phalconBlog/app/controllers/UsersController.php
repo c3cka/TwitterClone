@@ -125,7 +125,8 @@ class UsersController extends ControllerBase {
                 $this->dispatcher->forward([
                         "controller" => "users",
                         "action" => "index"
-                    ]);
+                ]);
+                return;
             }
 
             $this->view->id = $user->id;
@@ -149,6 +150,7 @@ class UsersController extends ControllerBase {
                     "controller" => "users",
                     "action" => "index"
             ]);
+            return;
         }
 
         $user = new Users();
@@ -169,6 +171,7 @@ class UsersController extends ControllerBase {
                     "controller" => "users",
                     "action" => "new"
             ]);
+            return;
         }
 
         $this->flash->success("user was created successfully");
@@ -176,6 +179,7 @@ class UsersController extends ControllerBase {
                 "controller" => "users",
                 "action" => "index"
         ]);
+        return;
 
     }
 

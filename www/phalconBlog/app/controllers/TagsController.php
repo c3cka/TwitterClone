@@ -34,12 +34,11 @@ class TagsController extends ControllerBase {
         $tags = Tags::find($parameters);
         if (count($tags) == 0) {
             $this->flash->notice("The search did not find any tags");
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "tags",
                     "action" => "index"
-                )
-            );
+            ]);
+            return;
         }
 
         $paginator = new Paginator(array(
@@ -67,15 +66,14 @@ class TagsController extends ControllerBase {
 
         if (!$this->request->isPost()) {
 
-            $tag = Tags::findFirstByid($id);
+            $tag = Tags::findFirst($id);
             if (!$tag) {
                 $this->flash->error("tag was not found");
-                return $this->dispatcher->forward(
-                    array(
+                $this->dispatcher->forward([
                         "controller" => "tags",
                         "action" => "index"
-                    )
-                );
+                ]);
+                return;
             }
 
             $this->view->id = $tag->id;
@@ -92,12 +90,11 @@ class TagsController extends ControllerBase {
     public function createAction() {
 
         if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "tags",
                     "action" => "index"
-                )
-            );
+            ]);
+
         }
 
         $tag = new Tags();
@@ -110,21 +107,19 @@ class TagsController extends ControllerBase {
             foreach ($tag->getMessages() as $message) {
                 $this->flash->error($message);
             }
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "tags",
                     "action" => "new"
-                )
-            );
+            ]);
+
         }
 
         $this->flash->success("tag was created successfully");
-        return $this->dispatcher->forward(
-            array(
+        $this->dispatcher->forward([
                 "controller" => "tags",
                 "action" => "index"
-            )
-        );
+        ]);
+        return;
 
     }
 
@@ -135,25 +130,23 @@ class TagsController extends ControllerBase {
     public function saveAction() {
 
         if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "tags",
                     "action" => "index"
-                )
-            );
+            ]);
+            #
         }
 
         $id = $this->request->getPost("id");
 
-        $tag = Tags::findFirstByid($id);
+        $tag = Tags::findFirst($id);
         if (!$tag) {
             $this->flash->error("tag does not exist " . $id);
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "tags",
                     "action" => "index"
-                )
-            );
+            ]);
+
         }
 
         $tag->id = $this->request->getPost("id");
@@ -166,22 +159,20 @@ class TagsController extends ControllerBase {
                 $this->flash->error($message);
             }
 
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "tags",
                     "action" => "edit",
                     "params" => array($tag->id)
-                )
-            );
+            ]);
+
         }
 
         $this->flash->success("tag was updated successfully");
-        return $this->dispatcher->forward(
-            array(
+        $this->dispatcher->forward([
                 "controller" => "tags",
                 "action" => "index"
-            )
-        );
+        ]);
+        return;
 
     }
 
@@ -192,15 +183,14 @@ class TagsController extends ControllerBase {
      */
     public function deleteAction($id) {
 
-        $tag = Tags::findFirstByid($id);
+        $tag = Tags::findFirst($id);
         if (!$tag) {
             $this->flash->error("tag was not found");
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "tags",
                     "action" => "index"
-                )
-            );
+            ]);
+
         }
 
         if (!$tag->delete()) {
@@ -209,21 +199,19 @@ class TagsController extends ControllerBase {
                 $this->flash->error($message);
             }
 
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "tags",
                     "action" => "search"
-                )
-            );
+            ]);
+
         }
 
         $this->flash->success("tag was deleted successfully");
-        return $this->dispatcher->forward(
-            array(
+        $this->dispatcher->forward([
                 "controller" => "tags",
                 "action" => "index"
-            )
-        );
+        ]);
+        return;
     }
 
 }

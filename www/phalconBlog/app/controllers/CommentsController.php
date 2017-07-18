@@ -32,7 +32,7 @@ class CommentsController extends ControllerBase {
 
         if (!$this->request->isPost()) {
 
-            $comment = Comments::findFirstByid($id);
+            $comment = Comments::findFirst($id);
             if (!$comment) {
                 $this->flash->error("comment was not found");
                 return $this->dispatcher->forward(
@@ -74,7 +74,7 @@ class CommentsController extends ControllerBase {
 
         $id = $this->request->getPost("id");
 
-        $comment = Comments::findFirstByid($id);
+        $comment = Comments::findFirst($id);
         if (!$comment) {
             $this->flash->error("comment does not exist " . $id);
             return $this->dispatcher->forward(
@@ -125,7 +125,7 @@ class CommentsController extends ControllerBase {
      */
     public function deleteAction($id) {
 
-        $comment = Comments::findFirstByid($id);
+        $comment = Comments::findFirst($id);
         if (!$comment) {
             $this->flash->error("comment was not found");
             return $this->dispatcher->forward(

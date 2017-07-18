@@ -78,7 +78,7 @@ class PostsController extends ControllerBase {
 
         if (!$this->request->isPost()) {
 
-            $post = Posts::findFirstByid($id);
+            $post = Posts::findFirst($id);
             if (!$post) {
                 $this->flash->error("post was not found");
                 return $this->dispatcher->forward(
@@ -178,7 +178,7 @@ class PostsController extends ControllerBase {
 
         $id = $this->request->getPost("id");
 
-        $post = Posts::findFirstByid($id);
+        $post = Posts::findFirst($id);
         if (!$post) {
             $this->flash->error("post does not exist " . $id);
             return $this->dispatcher->forward(
@@ -226,7 +226,7 @@ class PostsController extends ControllerBase {
      */
     public function deleteAction($id) {
 
-        $post = Posts::findFirstByid($id);
+        $post = Posts::findFirst($id);
         if (!$post) {
             $this->flash->error("post was not found");
             return $this->dispatcher->forward(
@@ -271,7 +271,7 @@ class PostsController extends ControllerBase {
         $post = $cache->get($key);
 
         if ($post === null) {
-            $post = Posts::findFirstByid($id);
+            $post = Posts::findFirst($id);
             $cache->save($key, $post);
         }
 
