@@ -43,14 +43,15 @@
         <?php foreach ($page->items as $post): ?>
             <tr>
                 <td><?php echo $post->id ?></td>
-            <td><?php echo $post->users_id ?></td>
-            <td><?php echo $post->title ?></td>
-            <td><?php echo $post->body ?></td>
-            <td><?php echo $post->excerpt ?></td>
-            <td><?php echo $post->published ?></td>
-            <td><?php echo $post->updated ?></td>
-            <td><?php echo $post->pinged ?></td>
-            <td><?php echo $post->to_ping ?></td>
+                <td><?php echo $post->users_id ?></td>
+                <td><?php echo $post->title ?></td>
+                <td><?php echo $post->body ?></td>
+                <td><?php echo $post->excerpt ?></td>
+                <td><?php echo $post->published ?></td>
+                <td><?php echo $post->updated ?></td>
+                <td><?php echo $post->pinged ?></td>
+                <td><?php echo $post->to_ping ?></td>
+                <td><?php echo $post->tags ?></td>
 
                 <td><?php echo $this->tag->linkTo(["posts/edit/" . $post->id, "Edit"]); ?></td>
                 <td><?php echo $this->tag->linkTo(["posts/delete/" . $post->id, "Delete"]); ?></td>
