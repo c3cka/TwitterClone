@@ -2,6 +2,8 @@
 
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Mvc\Model\Behavior\Timestampable;
+
 
 class Users extends \Phalcon\Mvc\Model
 {
@@ -70,6 +72,19 @@ class Users extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
+        $this->addBehavior(new Timestampable([
+                'beforeCreate' => [
+                    'field' => 'created_at',
+                    'format' => 'Y-m-d H:i:s'
+                ]]
+        ));
+        $this->addBehavior(new Timestampable([
+                'beforeUpdate' => [
+                    'field' => 'updated_at',
+                    'format' => 'Y-m-d H:i:s'
+                ]]
+        ));
+
         $this->setSchema("phalconblog");
         $this->hasMany('id', 'Posts', 'users_id', ['alias' => 'Posts']);
     }

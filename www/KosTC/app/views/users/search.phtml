@@ -6,19 +6,50 @@
 
 <?php use Phalcon\Tag; ?>
 
-<div class="row">
-    <nav>
-        <ul class="pager">
-            <li class="previous"><?php echo $this->tag->linkTo(["users/index", "Go Back"]); ?></li>
-            <li class="next"><?php echo $this->tag->linkTo(["users/new", "Create "]); ?></li>
-            <li class="btn"><?php echo $this->tag->linkTo(["users/logout", "LogOut"]); ?></li>
-        </ul>
-    </nav>
-</div>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index">KosTC</a>
+        </div>
 
-<div class="page-header">
-    <h1>Search result</h1>
-</div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown active">
+                    <a href="users" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="users">View</a></li>
+                        <li><a href="users/new">Register</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Edit</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="posts" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Posts <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="posts">View</a></li>
+                        <li><a href="posts/new">Create</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Edit</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <?= $this->tag->form(['posts/search', 'method' => 'post', 'autocomplete' => 'off', 'class' => 'navbar-form navbar-right']) ?>
+            <div class="input-append">
+                <?= $this->tag->textField(['body', 'class' => 'input-medium']) ?>
+                <?= $this->tag->submitButton(['Search', 'class' => 'btn']) ?>
+            </div>
+            <?= $this->tag->endForm() ?>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 
 <?php echo $this->getContent(); ?>
 
@@ -27,10 +58,9 @@
         <thead>
             <tr>
                 <th>Id</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Name</th>
-            <th>Email</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
 
                 <th></th>
                 <th></th>
@@ -40,10 +70,9 @@
         <?php foreach ($page->items as $user): ?>
             <tr>
                 <td><?php echo $user->id ?></td>
-            <td><?php echo $user->username ?></td>
-            <td><?php echo $user->password ?></td>
-            <td><?php echo $user->name ?></td>
-            <td><?php echo $user->email ?></td>
+                <td><?php echo $user->username ?></td>
+                <td><?php echo $user->name ?></td>
+                <td><?php echo $user->email ?></td>
 
                 <td><?php echo $this->tag->linkTo(["users/edit/" . $user->id, "Edit"]); ?></td>
                 <td><?php echo $this->tag->linkTo(["users/delete/" . $user->id, "Delete"]); ?></td>

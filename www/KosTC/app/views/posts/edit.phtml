@@ -4,13 +4,52 @@
  */
 ?>
 
-<div class="row">
-    <nav>
-        <ul class="pager">
-            <li class="previous"><?php echo $this->tag->linkTo(["posts", "Back"]) ?></li>
-        </ul>
-    </nav>
-</div>
+<?php use Phalcon\Tag; ?>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../index">KosTC</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="../../users" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../../users">View</a></li>
+                        <li><a href="../../users/new">Register</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Edit</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown active">
+                    <a href="../../posts" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Posts <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../../posts">View</a></li>
+                        <li><a href="../../posts/new">Create</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Edit</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <?= $this->tag->form(['posts/search', 'method' => 'post', 'autocomplete' => 'off', 'class' => 'navbar-form navbar-right']) ?>
+            <div class="input-append">
+                <?= $this->tag->textField(['body', 'class' => 'input-medium']) ?>
+                <?= $this->tag->submitButton(['Search', 'class' => 'btn']) ?>
+            </div>
+            <?= $this->tag->endForm() ?>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 
 <div class="page-header">
     <h1>
@@ -31,13 +70,6 @@
 ?>
 
 <div class="form-group">
-    <label for="fieldUsersId" class="col-sm-2 control-label">Users</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["users_id", "type" => "number", "class" => "form-control", "id" => "fieldUsersId"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
     <label for="fieldTitle" class="col-sm-2 control-label">Title</label>
     <div class="col-sm-10">
         <?php echo $this->tag->textArea(["title", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldTitle"]) ?>
@@ -52,42 +84,13 @@
 </div>
 
 <div class="form-group">
-    <label for="fieldExcerpt" class="col-sm-2 control-label">Excerpt</label>
+    <label for="tags" class="col-sm-2 control-label">Tags</label>
     <div class="col-sm-10">
-        <?php echo $this->tag->textArea(["excerpt", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldExcerpt"]) ?>
+        <?php echo $this->tag->textArea(["tags", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "tags"]) ?>
     </div>
 </div>
 
-<div class="form-group">
-    <label for="fieldPublished" class="col-sm-2 control-label">Published</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["published", "size" => 30, "class" => "form-control", "id" => "fieldPublished"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldUpdated" class="col-sm-2 control-label">Updated</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["updated", "size" => 30, "class" => "form-control", "id" => "fieldUpdated"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldPinged" class="col-sm-2 control-label">Pinged</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textArea(["pinged", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldPinged"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldToPing" class="col-sm-2 control-label">To Of Ping</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textArea(["to_ping", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldToPing"]) ?>
-    </div>
-</div>
-
-
-<?php echo $this->tag->hiddenField("id") ?>
+<?php echo $this->tag->hiddenField(id) ?>
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">

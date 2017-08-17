@@ -7,9 +7,11 @@
     <orderEntry type="module-library">
       <library name="PHP" type="php">
         <CLASSES>
+          <root url="file://$USER_HOME$/phalcon-devtools/ide/phpstorm" />
           <root url="jar://$APPLICATION_PLUGINS_DIR$/phpstorm-library-plugin.jar!/Phalcon/Phalcon" />
         </CLASSES>
         <SOURCES>
+          <root url="file://$USER_HOME$/phalcon-devtools/ide/phpstorm" />
           <root url="jar://$APPLICATION_PLUGINS_DIR$/phpstorm-library-plugin.jar!/Phalcon/Phalcon" />
         </SOURCES>
       </library>
@@ -17,12 +19,16 @@
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
-          <root url="phar://$MODULE_DIR$/www/phalconBlog/app/library/composer.phar/" />
+          <root url="phar://$MODULE_DIR$/www/KosTC/composer.phar/" />
         </CLASSES>
         <SOURCES>
-          <root url="phar://$MODULE_DIR$/www/phalconBlog/app/library/composer.phar/" />
+          <root url="phar://$MODULE_DIR$/www/KosTC/composer.phar/" />
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jquery-3.2.1.slim" level="application" />
+    <orderEntry type="library" name="popper" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
   </component>
 </module>

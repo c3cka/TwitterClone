@@ -1,0 +1,57 @@
+<div class="container">
+    <?= $this->getContent() ?>
+    <div class="row">
+        <div class="col-xs-12 col-lg-6">
+            <h1>TITLE</h1>
+            <p><h2><?= $post->title ?></h2></p>
+        </div>
+
+        <div class="row-xs-12 col-lg-6"
+            <div class="row-xs-12 row-lg-12">
+                <?= $post->body ?>
+                <div class="row">
+                    <h4>Tags</h4>
+                    <?php foreach ($post->postTags as $posttag) { ?>
+                        <?= $posttag->tags->tag ?>,
+                    <?php } ?>
+                </div>
+            </div>
+        <div><?= $this->tag->linkTo(['posts/edit/' . $post->id, 'Edit']) ?> | <?= $this->tag->linkTo(['posts/delete/' . $post->id, 'Delete']) ?></div>
+    </div>
+    <div class="row">
+        <div class="comments">
+            <h3>Comments</h3>
+            <div class="comment">
+                <?php foreach ($post->comments as $comments) { if ($comments->publish == true) { ?>
+                    <div><?= $comments->body ?></div>
+                    <div><a href="<?= $comments->url ?>"><?= $comments->name ?></a></div>
+                <?php } ?><?php } ?>
+            </div>
+        </div>
+        <div class="row">
+            <h3>Leave a Comment</h3>
+            <div>
+                <?= $this->tag->form(['posts/comment', 'method' => 'post']) ?>
+                <?= $this->tag->hiddenField(['posts_id', 'value' => $post->id]) ?>
+                <div>
+                    <label for="title">Comment</label>
+                    <?= $this->tag->textArea(['body']) ?>
+                </div>
+                <div>
+                    <label for="title">Name</label>
+                    <?= $this->tag->textField(['name']) ?>
+                </div>
+                <div>
+                    <label for="title">Email</label>
+                    <?= $this->tag->textField(['email']) ?>
+                </div>
+                <div>
+                    <label for="title">Website</label>
+                    <?= $this->tag->textField(['url']) ?>
+                </div>
+                <?= $this->tag->submitButton(['Comment', 'class' => 'btn']) ?>
+                <?= $this->tag->endForm() ?>
+            </div>
+        </div>
+    </div>
+</div>

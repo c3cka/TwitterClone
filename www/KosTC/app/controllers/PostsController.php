@@ -11,7 +11,14 @@ class PostsController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        $numberPage = $this->request->getQuery("page", "int", 1);
+        $posts = Posts::find();
+        $paginator = new Paginator(array(
+               "data" => $posts,
+               "limit"=> 10,
+               "page" => $numberPage
+           ));
+           $this->view->page = $paginator->getPaginate();
     }
 
     /**
@@ -21,29 +28,23 @@ class PostsController extends ControllerBase
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, 'Posts', $_POST);
-            $this->persistent->parameters = $query->getParams();
-        } else {
+            //$query = Criteria::fromInput($this->di, "Posts",$_POST);
+               //$this->persistent->parameters = $query->getParams();
+               $this->persistent->parameters = $this->request->getPost();
+           } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
-
         $parameters = $this->persistent->parameters;
         if (!is_array($parameters)) {
-            $parameters = [];
+            $parameters = array();
         }
-        $parameters["order"] = "id";
-
-        $posts = Posts::find($parameters);
-        if (count($posts) == 0) {
-            $this->flash->notice("The search did not find any posts");
-
-            $this->dispatcher->forward([
-                "controller" => "posts",
-                "action" => "index"
-            ]);
-
-            return;
-        }
+        //$parameters["order"] = "id";
+        $query = $parameters['body'];
+        //$posts = Posts::find($parameters);
+        $phql = "SELECT * FROM Posts WHERE body LIKE '%$query%' OR
+               excerpt LIKE '%$query%' OR title LIKE '%$query%' ORDER BY
+                 id";
+        $posts = $this->modelsManager->executeQuery($phql);
 
         $paginator = new Paginator([
             'data' => $posts,
@@ -89,18 +90,12 @@ class PostsController extends ControllerBase
             foreach ($post->postTags as $postTag) {
                 $tagArray[] = $postTag->tags->tag;
             }
-            $this->tag->setDefault("tags", implode(",", $tagArray));
 
             $this->tag->setDefault("id", $post->id);
-            $this->tag->setDefault("users_id", $post->users_id);
             $this->tag->setDefault("title", $post->title);
             $this->tag->setDefault("body", $post->body);
-            $this->tag->setDefault("excerpt", $post->excerpt);
-            $this->tag->setDefault("published", $post->published);
-            $this->tag->setDefault("updated", $post->updated);
-            $this->tag->setDefault("pinged", $post->pinged);
-            $this->tag->setDefault("to_ping", $post->to_ping);
-            
+            $this->tag->setDefault("tags", implode(",", $tagArray));
+
         }
     }
 
@@ -118,6 +113,9 @@ class PostsController extends ControllerBase
             return;
         }
 
+        if ($this->cookies->has('user_id')) {
+            $this->session->set('user_id', $this->cookies->get('user_id'));
+        }
         if (!$this->session->has("user_id")) {
             $this->flash->error("Please log in to create a post");
             $this->dispatcher->forward([
@@ -131,12 +129,9 @@ class PostsController extends ControllerBase
         $post->users_id = $this->session->get("user_id");
         $post->title = $this->request->getPost("title");
         $post->body = $this->request->getPost("body");
-        $post->excerpt = $this->request->getPost("excerpt");
         $post->published = $this->request->getPost("published");
-        $post->updated = $this->request->getPost("updated");
-        $post->pinged = $this->request->getPost("pinged");
-        $post->to_ping = $this->request->getPost("to_ping");
-        
+        $post->tags = $this->request->getPost("tags");
+
 
         if (!$post->save()) {
             foreach ($post->getMessages() as $message) {
@@ -192,15 +187,9 @@ class PostsController extends ControllerBase
             return;
         }
 
-        $post->users_id = $this->request->getPost("users_id");
         $post->title = $this->request->getPost("title");
         $post->body = $this->request->getPost("body");
-        $post->excerpt = $this->request->getPost("excerpt");
-        $post->published = $this->request->getPost("published");
-        $post->updated = $this->request->getPost("updated");
-        $post->pinged = $this->request->getPost("pinged");
-        $post->to_ping = $this->request->getPost("to_ping");
-        
+        $post->tags = $this->request->getPost("tags");
 
         if (!$post->save()) {
 
@@ -269,4 +258,52 @@ class PostsController extends ControllerBase
         ]);
     }
 
+    /**
+     * Shows posts
+     */
+    public function showAction($id)
+    {
+        if (!$this->request->isPost()) {
+            $post = Posts::findFirst($id);
+            if (!$post) {
+                $this->flashSession->error("post was not found");
+                $response = new \Phalcon\Http\Response();
+                $response->setStatusCode(404, "Not Found");
+                $response->redirect("posts/index");
+            }
+            $this->tag->prependTitle($post->title . " - ");
+            $this->view->post = $post;
+        }
+    }
+
+    public function commentAction(){
+        $comment = new Comments();
+        $comment->posts_id = $this->request->getPost("posts_id");
+        $comment->body = $this->request->getPost("body");
+        $comment->name = $this->request->getPost("name");
+        $comment->email = $this->request->getPost("email");
+        $comment->url = $this->request->getPost("url");
+        $comment->submitted = date("Y-m-d H:i:s");
+        $comment->publish = 0;
+        $comment->save();
+
+        if (!$comment->save()){
+            foreach ($comment->getMessages() as $message) {
+                $this->flash->error($message);
+            }
+
+            return $this->dispatcher->forward([
+                'controller' => 'posts',
+                'action' => 'show',
+                'params' => [$comment->posts_id]
+            ]);
+        }
+
+        $this->flash->success("Your comment has been submitted.");
+        return $this->dispatcher->forward([
+                'controller' => 'posts',
+                'action' => 'show',
+                'params' => [$comment->posts_id]
+            ]);
+    }
 }

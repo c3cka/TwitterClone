@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
 #  config.vm.network "public_network", ip:"192.168.7.77"
 #-------------------------------------------------------------------#
   config.vm.synced_folder ".", "/vagrant/", :mount_options => ["dmode=777", "fmode=666"]
-  config.vm.synced_folder "./www", "/vagrant/www/", :mount_options => ["dmode=775", "fmode=644"], :owner => 'ubuntu', :group => 'www-data'
+  config.vm.synced_folder "./www", "/vagrant/www/", :mount_options => ["dmode=777", "fmode=666"], :owner => 'ubuntu', :group => 'ubuntu'
 
 #  config.ssh.private_key_path = "~/.vagrant.d/insecure_private_key"
   

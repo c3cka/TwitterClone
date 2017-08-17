@@ -24,35 +24,33 @@ class UsersController extends ControllerBase
     /**
      *  Login action
      */
-    public function loginAction()
-    {
+    public function loginAction() {
         if ($this->request->isPost()) {
             $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
 
-            $query = Criteria::fromInput($this->di, "Users", $_POST);
-            $this->persistent->parameters = $query->getParams();
-            $parameters = $this->persistent->parameters;
+            $user = Users::findFirst(array(
+                "username = :username: AND password = :password:",
+                'bind' => array('username' => $username, 'password' => sha1($password))
+            ));
 
-            if (!is_array($parameters)) {
-                $parameters = array();
-            }
+            if ($user != false) {
+                $this->session->set("user_id", $user->id);
+                $this->session->set("user_role", $user->role);
+                $this->cookies->set('user_id', $user->id);
+                $this->flash->success('Welcome ' . $user->name);
 
-            $users = Users::find($parameters);
-            if (count($users) == 1) {
-                $user = $users->getFirst();
-                $this->session->set("user_id", $users->id);
-                $this->flash->success("Welcome " . $users->name);
-            } else {
-                $this->flash->error("Username and Password combination not found");
+                $this->response->redirect('posts/index');
+                return;
+
+            }else {
+                $this->flash->error('Wrong email/password! Try again');
+                $this->dispatcher->forward([
+                    "controller" => "users",
+                    "action"     => "index",
+                ]);
             }
         }
-        $this->dispatcher->forward([
-            "controller" => "posts",
-            "action" => "index"
-        ]);
-
-        return;
     }
 
     /**
@@ -142,7 +140,7 @@ class UsersController extends ControllerBase
 
             $this->tag->setDefault("id", $user->id);
             $this->tag->setDefault("username", $user->username);
-            $this->tag->setDefault("password", $user->password);
+            #$this->tag->setDefault("password" );
             $this->tag->setDefault("name", $user->name);
             $this->tag->setDefault("email", $user->email);
 
@@ -159,36 +157,46 @@ class UsersController extends ControllerBase
                 'controller' => "users",
                 'action' => 'index'
             ]);
-
             return;
         }
 
         $user = new Users();
+
+        $user->id = $this->request->getPost("id");
         $user->username = $this->request->getPost("username");
-        $user->password = $this->request->getPost("password");
+        $password = $this->request->getPost("password");
+        $user->password = sha1($password);
+        $confirm_password = $this->request->getPost("confirm_password");
         $user->name = $this->request->getPost("name");
         $user->email = $this->request->getPost("email", "email");
 
 
-        if (!$user->save()) {
-            foreach ($user->getMessages() as $message) {
-                $this->flash->error($message);
-            }
-
+        if ($password != $confirm_password){
+            $this->flash->error("Passwords don't match");
             $this->dispatcher->forward([
-                'controller' => "users",
+                'controller' => 'users',
                 'action' => 'new'
             ]);
+        }
+        else {
+            if (!$user->save()) {
+                foreach ($user->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $this->dispatcher->forward([
+                    'controller' => 'users',
+                    'action' => 'new'
+                ]);
+                return;
+            }
 
+            $this->flash->success("user was created successfully");
+            $this->dispatcher->forward([
+                'controller' => 'posts',
+                'action' => 'index'
+            ]);
             return;
         }
-
-        $this->flash->success("user was created successfully");
-
-        $this->dispatcher->forward([
-            'controller' => "users",
-            'action' => 'index'
-        ]);
     }
 
     /**

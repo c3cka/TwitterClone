@@ -8,6 +8,7 @@
     <nav>
         <ul class="pager">
             <li class="previous"><?php echo $this->tag->linkTo(["users", "Back"]) ?></li>
+            <li class="btn"><?php echo $this->tag->linkTo(["users/logout", "LogOut"]); ?></li>
         </ul>
     </nav>
 </div>
@@ -40,7 +41,7 @@
 <div class="form-group">
     <label for="fieldPassword" class="col-sm-2 control-label">Password</label>
     <div class="col-sm-10">
-        <?php echo $this->tag->textField(["password", "size" => 30, "class" => "form-control", "id" => "fieldPassword"]) ?>
+        <?php echo $this->tag->passwordField(["password", "size" => 30, "class" => "form-control", "id" => "fieldPassword"]) ?>
     </div>
 </div>
 

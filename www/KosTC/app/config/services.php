@@ -110,3 +110,18 @@ $di->setShared('session', function () {
 
     return $session;
 });
+
+$di->set('crypt', function () use ($config) {
+    $crypt = new Phalcon\Crypt();
+    $crypt->setKey($config->application->encryptKey);
+    return $crypt;
+} );
+
+$di->set('dispatcher', function() use ($di) {
+    $eventsManager = $di->getShared('eventsManager');
+    $security = new Security($di);
+    $eventsManager->attach('dispatch', $security);
+    $dispatcher = new Phalcon\Mvc\Dispatcher();
+    $dispatcher->setEventsManager($eventsManager);
+    return $dispatcher;
+});

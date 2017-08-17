@@ -6,22 +6,57 @@
 
 <?php use Phalcon\Tag; ?>
 
-<div class="row">
-    <nav>
-        <ul class="pager">
-            <li class="previous"><?php echo $this->tag->linkTo(["posts/index", "Go Back"]); ?></li>
-            <li class="next"><?php echo $this->tag->linkTo(["posts/new", "Create "]); ?></li>
-        </ul>
-    </nav>
-</div>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../index">KosTC</a>
+        </div>
 
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="../users" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../users">View</a></li>
+                        <li><a href="../users/new">Register</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Edit</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown active">
+                    <a href="../posts" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Posts <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../posts">View</a></li>
+                        <li><a href="../posts/new">Create</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Edit</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <?= $this->tag->form(['posts/search', 'method' => 'post', 'autocomplete' => 'off', 'class' => 'navbar-form navbar-right']) ?>
+            <div class="input-append">
+                <?= $this->tag->textField(['body', 'class' => 'input-medium']) ?>
+                <?= $this->tag->submitButton(['Search', 'class' => 'btn']) ?>
+            </div>
+            <?= $this->tag->endForm() ?>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 <div class="page-header">
     <h1>Search result</h1>
 </div>
 
 <?php echo $this->getContent(); ?>
 
-<div class="row">
+<div class="row-fluid">
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -29,11 +64,8 @@
                 <th>Users</th>
                 <th>Title</th>
                 <th>Body</th>
-                <th>Excerpt</th>
                 <th>Published</th>
                 <th>Updated</th>
-                <th>Pinged</th>
-                <th>To Of Ping</th>
                 <th>Tags</th>
 
 
@@ -48,11 +80,8 @@
                 <td><?php echo $post->users_id ?></td>
                 <td><?php echo $post->title ?></td>
                 <td><?php echo $post->body ?></td>
-                <td><?php echo $post->excerpt ?></td>
                 <td><?php echo $post->published ?></td>
                 <td><?php echo $post->updated ?></td>
-                <td><?php echo $post->pinged ?></td>
-                <td><?php echo $post->to_ping ?></td>
                 <td><?php echo $post->tags ?></td>
 
                 <td><?php echo $this->tag->linkTo(["posts/edit/" . $post->id, "Edit"]); ?></td>

@@ -1,0 +1,41 @@
+<?= $this->getContent() ?>
+<h1>Comments</h1>
+<table class="browse" align="center">
+    <thead> <tr>
+        <th>Body</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Url</th>
+        <th>Submitted</th>
+        <th>Publish</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php if (isset($page->items)) { ?>
+        <?php foreach ($page->items as $comment) { ?>
+            <tr>
+                <td><?= $comment->body ?></td>
+                <td><?= $comment->name ?></td>
+                <td><?= $comment->email ?></td>
+                <td><?= $comment->url ?></td>
+                <td><?= $comment->submitted ?></td>
+                <td><?= $comment->publish ?></td>
+                <td><?= $this->tag->linkTo(['comments/edit/' . $comment->id, 'Edit']) ?>
+                </td>
+                <td><?= $this->tag->linkTo(['comments/delete/' . $comment->id, 'Delete']) ?></td>
+            </tr>
+        <?php } ?>
+    <?php } ?>
+    </tbody>
+    <tbody><tr><td colspan="2" align="right">
+            <table align="center">
+                <tr>
+                    <td><?= $this->tag->linkTo(['comments/search', 'First']) ?></td>
+                    <td><?= $this->tag->linkTo(['comments/search?page=' . $page->before, 'Previous']) ?></td>
+                    <td><?= $this->tag->linkTo(['comments/search?page=' . $page->next, 'Next']) ?></td>
+                    <td><?= $this->tag->linkTo(['comments/search?page=' . $page->last, 'Last']) ?></td>
+                    <td><?= $page->current . '/' . $page->total_pages ?></td>
+                </tr>
+            </table>
+        </td></tr></tbody>
+</table>
