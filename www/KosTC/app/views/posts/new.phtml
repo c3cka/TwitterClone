@@ -40,6 +40,14 @@
                         <li><a href="#">Edit</a></li>
                     </ul>
                 </li>
+                <li>
+                    <?php if ($this->session->has("user_id")){ ?>
+                        <?= $this->tag->linkTo(['users/logout', 'Logout']); ?>
+                    <?php } ?>
+                    <?php if (!$this->session->has("user_id")){ ?>
+                        <?= $this->tag->linkTo(['users', 'Login']); ?>
+                    <?php } ?>
+                </li>
             </ul>
             <?= $this->tag->form(['posts/search', 'method' => 'post', 'autocomplete' => 'off', 'class' => 'navbar-form navbar-right']) ?>
             <div class="input-append">

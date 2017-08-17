@@ -61,7 +61,7 @@ class UsersController extends ControllerBase
         $this->session->remove("user_id");
         $this->flash->success("You have been logged out");
         $this->dispatcher->forward([
-            "controller" => "users",
+            "controller" => "index",
             "action" => "index"
         ]);
         return;

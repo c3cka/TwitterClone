@@ -292,18 +292,20 @@ class PostsController extends ControllerBase
                 $this->flash->error($message);
             }
 
-            return $this->dispatcher->forward([
+            $this->dispatcher->forward([
                 'controller' => 'posts',
                 'action' => 'show',
-                'params' => [$comment->posts_id]
+                'params' => array($comment->posts_id)
             ]);
+            return;
         }
 
         $this->flash->success("Your comment has been submitted.");
-        return $this->dispatcher->forward([
+        $this->dispatcher->forward([
                 'controller' => 'posts',
                 'action' => 'show',
-                'params' => [$comment->posts_id]
-            ]);
+                'params' => array($comment->posts_id)
+        ]);
+        return;
     }
 }

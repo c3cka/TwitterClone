@@ -24,7 +24,6 @@ define('APP_PATH', BASE_PATH . '/app');
      * Read services
      */
     include APP_PATH . '/config/services.php';
-    #include APP_PATH . '/config/Permission.php';
 
     /**
      * Get config service for use in inline setup below

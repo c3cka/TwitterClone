@@ -19,14 +19,13 @@ class CommentsController extends ControllerBase {
 
     public function editAction($id) {
         if (!$this->request->isPost()) {
-            $comment = Comments::findFirstByid($id);
+            $comment = Comments::findFirst($id);
             if (!$comment) {
                 $this->flash->error("comment was not found");
-                return $this->dispatcher->forward(
-                    array(
+                $this->dispatcher->forward([
                         "controller" => "comments",
                         "action" => "index"
-                    ) );
+                    ]);
             }
             $this->view->id = $comment->id;
 
@@ -43,22 +42,20 @@ class CommentsController extends ControllerBase {
 
     public function saveAction() {
         if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "comments",
                     "action" => "index"
-                ) );
+            ]);
         }
 
         $id = $this->request->getPost("id");
         $comment = Comments::findFirst($id);
         if (!$comment) {
             $this->flash->error("comment does not exist " . $id);
-            return $this->dispatcher->forward(
-                array(
+            $this->dispatcher->forward([
                     "controller" => "comments",
                     "action" => "index"
-                ) );
+                ]);
         }
         $comment->id = $this->request->getPost("id");
         $comment->body = $this->request->getPost("body");
@@ -71,46 +68,41 @@ class CommentsController extends ControllerBase {
             foreach ($comment->getMessages() as $message) {
                 $this->flash->error($message);
             }
-            return $this->dispatcher->forward(
-                array(
+             $this->dispatcher->forward([
                     "controller" => "comments",
                     "action" => "edit",
                     "params" => array($comment->id)
-                ) );
+                ]);
         }
         $this->flash->success("comment was updated successfully");
-        return $this->dispatcher->forward(
-            array(
+         $this->dispatcher->forward([
                 "controller" => "comments",
                 "action" => "index"
-            ) );
+            ]);
     }
 
     public function deleteAction($id) {
         $comment = Comments::findFirst($id);
         if (!$comment) {
             $this->flash->error("comment was not found");
-            return $this->dispatcher->forward(
-                array(
+             $this->dispatcher->forward([
                     "controller" => "comments",
                     "action" => "index"
-                ) );
+                ]);
         }
         if (!$comment->delete()) {
             foreach ($comment->getMessages() as $message) {
                 $this->flash->error($message);
             }
-            return $this->dispatcher->forward(
-                array(
+             $this->dispatcher->forward([
                     "controller" => "comments",
                     "action" => "search"
-                ));
+                ]);
         }
         $this->flash->success("comment was deleted successfully");
-        return $this->dispatcher->forward(
-            array(
+         $this->dispatcher->forward([
                 "controller" => "comments",
                 "action" => "index"
-            ) );
+            ]);
     }
 }

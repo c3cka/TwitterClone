@@ -20,7 +20,7 @@ class Comments extends \Phalcon\Mvc\Model
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $post_id;
+    public $posts_id;
 
     /**
      *
@@ -64,12 +64,6 @@ class Comments extends \Phalcon\Mvc\Model
      */
     public $publish;
 
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $posts_id;
 
     /**
      * Validations and business logic
