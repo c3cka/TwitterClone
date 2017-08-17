@@ -1,2 +1,0 @@
-Thu 20 13:17:19 ubuntu-xenial php: [WARNING] E_WARNING: Phalcon\Mvc\View\Engine\Volt\Compiler::compileFile(/vagrant/www/pirate/cache/Phalcon_Web_Tools_Views_index_index.php): failed to open stream: Permission denied in /home/ubuntu/phalcon-devtools/scripts/Phalcon/Bootstrap.php on line 191
-Thu 20 13:17:19 ubuntu-xenial php: [ERROR] Uncaught exception: Volt directory can't be written in phalcon/mvc/view/engine/volt/compiler.zep on line 2364
