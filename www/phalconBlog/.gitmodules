@@ -1,3 +1,0 @@
-[submodule "lib/vendor/phalcon/devtools"]
-	path = lib/vendor/phalcon/devtools
-	url = git://github.com/phalcon/phalcon-devtools.git
