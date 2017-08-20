@@ -37,10 +37,13 @@ class UsersController extends ControllerBase
             if ($user != false) {
                 $this->session->set("user_id", $user->id);
                 $this->session->set("user_role", $user->role);
-                $this->cookies->set('user_id', $user->id);
+                #$this->cookies->set('user_id', $user->id);
                 $this->flash->success('Welcome ' . $user->name);
 
-                $this->response->redirect('posts/index');
+                $this->dispatcher->forward([
+                    "controller" => "posts",
+                    "action" => "index",
+                ]);
                 return;
 
             }else {

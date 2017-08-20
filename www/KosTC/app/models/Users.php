@@ -4,7 +4,6 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
-
 class Users extends \Phalcon\Mvc\Model
 {
 
@@ -41,9 +40,30 @@ class Users extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", length=70, nullable=false)
      */
     public $email;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $created_at;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $updated_at;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $role;
 
     /**
      * Validations and business logic
@@ -72,6 +92,7 @@ class Users extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
+
         $this->addBehavior(new Timestampable([
                 'beforeCreate' => [
                     'field' => 'created_at',

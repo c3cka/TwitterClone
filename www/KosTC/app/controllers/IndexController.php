@@ -17,5 +17,10 @@ class IndexController extends ControllerBase
         $this->view->page = $paginator->getPaginate();
     }
 
+    public function destroySessionAction()
+    {
+        return $this->session->destroy();
+    }
+
 }
 

@@ -6,58 +6,8 @@
 
 <?php use Phalcon\Tag; ?>
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="../../index">KosTC</a>
-        </div>
+<?php $this->partial('partials/navbar'); ?>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="../../users" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="../../users">View</a></li>
-                        <li><a href="../../users/new">Register</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Edit</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown active">
-                    <a href="../../posts" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Posts <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="../../posts">View</a></li>
-                        <li><a href="../../posts/new">Create</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Edit</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <?php if ($this->session->has("user_id")){ ?>
-                        <?= $this->tag->linkTo(['users/logout', 'Logout']); ?>
-                    <?php } ?>
-                    <?php if (!$this->session->has("user_id")){ ?>
-                        <?= $this->tag->linkTo(['users', 'Login']); ?>
-                    <?php } ?>
-                </li>
-            </ul>
-            <?= $this->tag->form(['posts/search', 'method' => 'post', 'autocomplete' => 'off', 'class' => 'navbar-form navbar-right']) ?>
-            <div class="input-append">
-                <?= $this->tag->textField(['body', 'class' => 'input-medium']) ?>
-                <?= $this->tag->submitButton(['Search', 'class' => 'btn']) ?>
-            </div>
-            <?= $this->tag->endForm() ?>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
 <div class="page-header">
     <h1>
         Edit users
