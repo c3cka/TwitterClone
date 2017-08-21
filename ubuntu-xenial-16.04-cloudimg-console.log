@@ -639,4 +639,4 @@ ci-info: +-------+--------------+----------+---------------+-----------+-------+
 
 Ubuntu 16.04.2 LTS ubuntu-xenial ttyS0
 
-ubuntu-xenial login: 
+ubuntu-xenial login: [ 9449.198224] e1000 0000:00:03.0 enp0s3: Reset adapter
