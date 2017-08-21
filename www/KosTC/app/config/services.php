@@ -113,7 +113,7 @@ $di->setShared('session', function () {
 
 $di->set('crypt', function () use ($config) {
     $crypt = new Phalcon\Crypt();
-    $crypt->setKey($config->application->encryptKey);
+    $crypt->setKey('IgorKosCecka');
     return $crypt;
 } );
 

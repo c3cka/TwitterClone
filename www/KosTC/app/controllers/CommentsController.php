@@ -33,7 +33,6 @@ class CommentsController extends ControllerBase {
             $this->tag->setDefault("body", $comment->body);
             $this->tag->setDefault("name", $comment->name);
             $this->tag->setDefault("email", $comment->email);
-            $this->tag->setDefault("url", $comment->url);
             $this->tag->setDefault("submitted", $comment->submitted);
             $this->tag->setDefault("publish", $comment->publish);
             $this->tag->setDefault("posts_id", $comment->posts_id);

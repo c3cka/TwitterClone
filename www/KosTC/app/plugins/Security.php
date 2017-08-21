@@ -27,10 +27,18 @@ class Security extends Plugin {
                 $acl->addRole($role);
             }
 
+            $admin = [
+                'comments' => ['index', 'edit', 'delete','save'],
+                'posts' => ['new', 'edit', 'save', 'create', 'delete'],
+                'users' => ['search', 'new', 'edit', 'save', 'create', 'delete', 'logout']
+            ];
+            foreach ($admin as $resource => $actions) {
+                $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
+            }
             $private = array(
                 'comments' => array('index', 'edit', 'delete','save'),
                 'posts' => array('new', 'edit', 'save', 'create', 'delete'),
-                'users' => array('search', 'new', 'edit', 'save', 'create', 'delete', 'logout')
+                'users' => array('new', 'edit', 'save', 'create', 'logout')
             );
             foreach ($private as $resource => $actions) {
                 $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
@@ -58,18 +66,23 @@ class Security extends Plugin {
                     $acl->allow('Admin', $resource, $action);
                 }
             }
+            foreach ($admin as $resource => $actions) {
+                foreach ($actions as $action) {
+                    $acl->allow('Admin', $resource, $action);
+                }
+            }
             $this->persistent->acl = $acl;
         }
         return $this->persistent->acl;
     }
 
     public function beforeDispatch(Event $event, Dispatcher $dispatcher) {
+
         $user = $this->session->get('user_id');
         if (!$user) {
             $role = 'Guests';
-            $this->session->set('user_role', $role);
         } else {
-            $role = 'Users';
+            $role = $this->session->get('user_role');
         }
         /**
        if ($this->session->has('user_id')){
@@ -78,19 +91,23 @@ class Security extends Plugin {
        else {
            $role = 'Guests';
        }**/
-       $controller = $dispatcher->getControllerName();
-       $action = $dispatcher->getActionName();
-       $acl = $this->getAcl();
-       $allowed = $acl->isAllowed($role, $controller, $action);
+        /**
+        $role = $this->session->get('user_role');
+        echo $role;
+        if (!$role){
+            $role = 'Guests';
+        }**/
+        $controller = $dispatcher->getControllerName();
+        $action = $dispatcher->getActionName();
+        $acl = $this->getAcl();
+        $allowed = $acl->isAllowed($role, $controller, $action);
 
-       if ($allowed != Acl::ALLOW) {
+        if ($allowed != Acl::ALLOW) {
             $this->flash->error("You don't have access to this module");
-            $dispatcher->forward(
-                array(
+            $dispatcher->forward([
                     'controller' => 'index',
                     'action' => 'index'
-                )
-            );
+            ]);
             return false;
         }
     }

@@ -17,16 +17,19 @@
         </div>
 
         <div class="row-xs-12 col-lg-6"
-            <div class="row-xs-12 row-lg-12">
+            <div class="row-xs-12 row-lg-12 center-block">
+                <h2>BODY</h2>
                 <?= $post->body ?>
-                <div class="row">
+                <div class="row ">
                     <h4>Tags</h4>
                     <?php foreach ($post->postTags as $posttag) { ?>
                         <?= $posttag->tags->tag ?>,
                     <?php } ?>
                 </div>
             </div>
+        <?php if ($this->session->get('user_id') == $post->id || $this->session->get('user_role') == 'Admin') { ?>
         <div><?= $this->tag->linkTo(['posts/edit/' . $post->id, 'Edit']) ?> | <?= $this->tag->linkTo(['posts/delete/' . $post->id, 'Delete']) ?></div>
+        <?php } ?>
     </div>
     <div class="row">
         <div class="comments">
@@ -54,10 +57,6 @@
                 <div>
                     <label for="title">Email</label>
                     <?= $this->tag->textField(['email']) ?>
-                </div>
-                <div>
-                    <label for="title">Website</label>
-                    <?= $this->tag->textField(['url']) ?>
                 </div>
                 <?= $this->tag->submitButton(['Comment', 'class' => 'btn']) ?>
                 <?= $this->tag->endForm() ?>

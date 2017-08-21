@@ -14,56 +14,33 @@
 
 <?php echo $this->getContent(); ?>
 
-<div class="row-fluid">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Users</th>
-                <th>Title</th>
-                <th>Body</th>
-                <th>Published</th>
-                <th>Updated</th>
-                <th>Tags</th>
-
-
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($page->items as $post): ?>
-            <tr>
-                <td><?php echo $post->id ?></td>
-                <td><?php echo $post->users_id ?></td>
-                <td><?php echo $post->title ?></td>
-                <td><?php echo $post->body ?></td>
-                <td><?php echo $post->published ?></td>
-                <td><?php echo $post->updated ?></td>
-                <td><?php echo $post->tags ?></td>
-
-                <td><?php echo $this->tag->linkTo(["posts/edit/" . $post->id, "Edit"]); ?></td>
-                <td><?php echo $this->tag->linkTo(["posts/delete/" . $post->id, "Delete"]); ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
-
-<div class="row">
-    <div class="col-sm-1">
-        <p class="pagination" style="line-height: 1.42857;padding: 6px 12px;">
-            <?php echo $page->current, "/", $page->total_pages ?>
-        </p>
-    </div>
-    <div class="col-sm-11">
-        <nav>
-            <ul class="pagination">
-                <li><?php echo $this->tag->linkTo("posts/search", "First") ?></li>
-                <li><?php echo $this->tag->linkTo("posts/search?page=" . $page->before, "Previous") ?></li>
-                <li><?php echo $this->tag->linkTo("posts/search?page=" . $page->next, "Next") ?></li>
-                <li><?php echo $this->tag->linkTo("posts/search?page=" . $page->last, "Last") ?></li>
+<?php echo $this->getContent() ?>
+<?php if (isset($page->items)) { ?>
+    <?php foreach ($page->items as $post) { ?>
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <h2><?= $post->title ?></h2>
+                <div><?= $post->body ?></div>
+                <div><?= $this->tag->linkTo(['posts/show/' . $post->id, 'Show']); ?>
+                    <?php if ($this->session->has("user_id")) {
+                        #$user_id = $this->session->get('user_id');
+                        if ($this->session->get('user_id') == $post->users_id) { ?>
+                            <?= $this->tag->linkTo(['posts/edit/' . $post->id, 'Edit']); ?>
+                            <?= $this->tag->linkTo(['posts/delete/' . $post->id, 'Delete']); ?>
+                        <?php }} ?>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <ul class="pager">
+                <li><?= $this->tag->linkTo(['posts/index', 'First']) ?></li>
+                <li><?= $this->tag->linkTo(['posts/index?page=' . $page->before, 'Previous']) ?></li>
+                <li><?= $this->tag->linkTo(['posts/index?page=' . $page->next, 'Next']) ?></li>
+                <li><?= $this->tag->linkTo(['posts/index?page=' . $page->last, 'Last']) ?></li>
+                <li><?= $page->current . '/' . $page->total_pages ?></li>
             </ul>
-        </nav>
+        </div>
     </div>
-</div>
+<?php } ?>

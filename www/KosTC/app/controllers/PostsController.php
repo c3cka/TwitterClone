@@ -28,8 +28,6 @@ class PostsController extends ControllerBase
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
-            //$query = Criteria::fromInput($this->di, "Posts",$_POST);
-               //$this->persistent->parameters = $query->getParams();
                $this->persistent->parameters = $this->request->getPost();
            } else {
             $numberPage = $this->request->getQuery("page", "int");
@@ -38,12 +36,11 @@ class PostsController extends ControllerBase
         if (!is_array($parameters)) {
             $parameters = array();
         }
-        //$parameters["order"] = "id";
         $query = $parameters['body'];
         //$posts = Posts::find($parameters);
         $phql = "SELECT * FROM Posts WHERE body LIKE '%$query%' OR
                excerpt LIKE '%$query%' OR title LIKE '%$query%' ORDER BY
-                 id";
+                id";
         $posts = $this->modelsManager->executeQuery($phql);
 
         $paginator = new Paginator([
@@ -72,7 +69,7 @@ class PostsController extends ControllerBase
     {
         if (!$this->request->isPost()) {
 
-            $post = Posts::findFirstByid($id);
+            $post = Posts::findFirst($id);
             if (!$post) {
                 $this->flash->error("post was not found");
 
@@ -132,7 +129,6 @@ class PostsController extends ControllerBase
         $post->published = $this->request->getPost("published");
         $post->tags = $this->request->getPost("tags");
 
-
         if (!$post->save()) {
             foreach ($post->getMessages() as $message) {
                 $this->flash->error($message);
@@ -174,7 +170,7 @@ class PostsController extends ControllerBase
         }
 
         $id = $this->request->getPost("id");
-        $post = Posts::findFirstByid($id);
+        $post = Posts::findFirst($id);
 
         if (!$post) {
             $this->flash->error("post does not exist " . $id);
@@ -190,6 +186,7 @@ class PostsController extends ControllerBase
         $post->title = $this->request->getPost("title");
         $post->body = $this->request->getPost("body");
         $post->tags = $this->request->getPost("tags");
+
 
         if (!$post->save()) {
 
@@ -224,7 +221,7 @@ class PostsController extends ControllerBase
      */
     public function deleteAction($id)
     {
-        $post = Posts::findFirstByid($id);
+        $post = Posts::findFirst($id);
         if (!$post) {
             $this->flash->error("post was not found");
 
@@ -303,8 +300,7 @@ class PostsController extends ControllerBase
         $this->flash->success("Your comment has been submitted.");
         $this->dispatcher->forward([
                 'controller' => 'posts',
-                'action' => 'show',
-                'params' => array($comment->posts_id)
+                'action' => 'index'
         ]);
         return;
     }

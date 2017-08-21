@@ -3,7 +3,6 @@
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
-
 class UsersController extends ControllerBase
 {
     /**
@@ -37,11 +36,11 @@ class UsersController extends ControllerBase
             if ($user != false) {
                 $this->session->set("user_id", $user->id);
                 $this->session->set("user_role", $user->role);
-                #$this->cookies->set('user_id', $user->id);
+                $this->cookies->set('user_id', $user->id);
                 $this->flash->success('Welcome ' . $user->name);
 
                 $this->dispatcher->forward([
-                    "controller" => "posts",
+                    "controller" => "index",
                     "action" => "index",
                 ]);
                 return;
@@ -143,7 +142,7 @@ class UsersController extends ControllerBase
 
             $this->tag->setDefault("id", $user->id);
             $this->tag->setDefault("username", $user->username);
-            #$this->tag->setDefault("password" );
+            #$this->tag->setDefault("password", $user->password );
             $this->tag->setDefault("name", $user->name);
             $this->tag->setDefault("email", $user->email);
 
@@ -233,7 +232,8 @@ class UsersController extends ControllerBase
         }
 
         $user->username = $this->request->getPost("username");
-        $user->password = $this->request->getPost("password");
+        $password = $this->request->getPost("password");
+        $user->password = sha1($password);
         $user->name = $this->request->getPost("name");
         $user->email = $this->request->getPost("email", "email");
 
@@ -245,7 +245,7 @@ class UsersController extends ControllerBase
             }
 
             $this->dispatcher->forward([
-                'controller' => "users",
+                'controller' => 'users',
                 'action' => 'edit',
                 'params' => [$user->id]
             ]);
@@ -256,8 +256,9 @@ class UsersController extends ControllerBase
         $this->flash->success("user was updated successfully");
 
         $this->dispatcher->forward([
-            'controller' => "users",
-            'action' => 'index'
+            'controller' => 'users',
+            'action' => 'edit',
+            'params' => [$user->id]
         ]);
     }
 
