@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
 ###############
 ### AT HOME ###
 ###############
-  config.vm.network "public_network", ip:"192.168.7.77"
+#  config.vm.network "public_network", ip:"192.168.7.77"
 #-------------------------------------------------------------------#
   config.vm.synced_folder ".", "/vagrant/", :mount_options => ["dmode=777", "fmode=666"]
   config.vm.synced_folder "./www", "/vagrant/www/", :mount_options => ["dmode=777", "fmode=666"], :owner => 'ubuntu', :group => 'ubuntu'

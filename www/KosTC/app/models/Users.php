@@ -2,6 +2,7 @@
 
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Validation\Validator\StringLength;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
 class Users extends \Phalcon\Mvc\Model
@@ -84,9 +85,42 @@ class Users extends \Phalcon\Mvc\Model
             )
         );
 
+        $validator->add(
+            'email',
+            new Validation\Validator\Uniqueness(
+                [
+                    'message' => 'Email already in use!'
+                ]
+            )
+        );
+
+        $validator->add(
+            'password',
+            new StringLength(
+                [
+                    'min'   => 8,
+                    'messageMinimum' => 'Password must be at least 8 characters!',
+                    'max'   => 20,
+                    'messageMaximum' => 'Password must be less than 20 characters',
+                ])
+        );
         return $this->validate($validator);
     }
 
+    public function afterValidationOnCreate(){
+
+        // Always hash the password on update
+        $this->password = sha1($this->password);
+}
+
+    public function afterValidationOnUpdate(){
+
+        // If there has been a change in the password, re-hash it
+        if($this->hasChanged('password')){
+            $this->password = sha1($this->password);
+    }
+
+    }
     /**
      * Initialize method for model.
      */

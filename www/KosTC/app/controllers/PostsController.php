@@ -12,7 +12,8 @@ class PostsController extends ControllerBase
     public function indexAction()
     {
         $numberPage = $this->request->getQuery("page", "int", 1);
-        $posts = Posts::find();
+        $params['order'] = 'published DESC';
+        $posts = Posts::find($params);
         $paginator = new Paginator(array(
                "data" => $posts,
                "limit"=> 10,
@@ -38,9 +39,7 @@ class PostsController extends ControllerBase
         }
         $query = $parameters['body'];
         //$posts = Posts::find($parameters);
-        $phql = "SELECT * FROM Posts WHERE body LIKE '%$query%' OR
-               excerpt LIKE '%$query%' OR title LIKE '%$query%' ORDER BY
-                id";
+        $phql = "SELECT * FROM Posts WHERE body LIKE '%$query%' OR title LIKE '%$query%' ORDER BY published DESC ";
         $posts = $this->modelsManager->executeQuery($phql);
 
         $paginator = new Paginator([

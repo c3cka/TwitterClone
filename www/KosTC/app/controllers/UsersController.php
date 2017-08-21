@@ -46,7 +46,7 @@ class UsersController extends ControllerBase
                 return;
 
             }else {
-                $this->flash->error('Wrong email/password! Try again');
+                $this->flash->error('Wrong username/password! Try again');
                 $this->dispatcher->forward([
                     "controller" => "users",
                     "action"     => "index",
@@ -167,7 +167,7 @@ class UsersController extends ControllerBase
         $user->id = $this->request->getPost("id");
         $user->username = $this->request->getPost("username");
         $password = $this->request->getPost("password");
-        $user->password = sha1($password);
+        $user->password = $password;
         $confirm_password = $this->request->getPost("confirm_password");
         $user->name = $this->request->getPost("name");
         $user->email = $this->request->getPost("email", "email");
@@ -192,7 +192,7 @@ class UsersController extends ControllerBase
                 return;
             }
 
-            $this->flash->success("user was created successfully");
+            $this->flash->success("Your account was created successfully!");
             $this->dispatcher->forward([
                 'controller' => 'posts',
                 'action' => 'index'

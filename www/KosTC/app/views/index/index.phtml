@@ -24,7 +24,7 @@
                 <div><?= $this->tag->linkTo(['posts/show/' . $post->id, 'Show']); ?>
                     <?php if ($this->session->has("user_id")) {
                         #$user_id = $this->session->get('user_id');
-                        if ($this->session->get('user_id') == $post->users_id) { ?>
+                        if ($this->session->get('user_id') == $post->users_id || $this->session->get('user_role') == 'Admin') { ?>
                             <?= $this->tag->linkTo(['posts/edit/' . $post->id, 'Edit']); ?>
                             <?= $this->tag->linkTo(['posts/delete/' . $post->id, 'Delete']); ?>
                         <?php }} ?>
