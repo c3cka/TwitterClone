@@ -37,6 +37,7 @@ class UsersController extends ControllerBase
                 $this->session->set("user_id", $user->id);
                 $this->session->set("user_role", $user->role);
                 $this->cookies->set('user_id', $user->id);
+                $this->session->set('user_name', $user->name);
                 $this->flash->success('Welcome ' . $user->name);
 
                 $this->dispatcher->forward([
@@ -166,8 +167,7 @@ class UsersController extends ControllerBase
 
         $user->id = $this->request->getPost("id");
         $user->username = $this->request->getPost("username");
-        $password = $this->request->getPost("password");
-        $user->password = $password;
+        $user->password = $this->request->getPost("password");
         $confirm_password = $this->request->getPost("confirm_password");
         $user->name = $this->request->getPost("name");
         $user->email = $this->request->getPost("email", "email");
@@ -232,8 +232,7 @@ class UsersController extends ControllerBase
         }
 
         $user->username = $this->request->getPost("username");
-        $password = $this->request->getPost("password");
-        $user->password = sha1($password);
+        $user->password = $this->request->getPost("password");
         $user->name = $this->request->getPost("name");
         $user->email = $this->request->getPost("email", "email");
 

@@ -7,7 +7,7 @@
 <?php use Phalcon\Tag; ?>
 
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -23,6 +23,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+                <?php if ($this->session->has('user_id')) { ?>
+                    <li class="navbar-text">Welcome, <?php echo $this->session->get('user_name'); ?> </li>
+                <?php } ?>
                 <?php if ($this->session->has("user_id") && $this->session->get('user_role') == 'Admin') { ?>
                     <li><?= $this->tag->linkTo(['users/index', 'Users']); ?></li>
                 <?php } ?>
@@ -42,14 +45,14 @@
                     <?= $this->tag->linkTo(['users/edit/'.$this->session->get('user_id'), 'My Account']); ?>
                     <?php } ?>
                 </li>
-                <li>
+                <button type="button" class="btn btn-default navbar-btn">
                     <?php if ($this->session->has("user_id")){ ?>
                         <?= $this->tag->linkTo(['users/logout', 'Logout']); ?>
                     <?php } ?>
                     <?php if (!$this->session->has("user_id")){ ?>
                         <?= $this->tag->linkTo(['users/', 'Login']); ?>
                     <?php } ?>
-                </li>
+                </button>
             </ul>
             <?= $this->tag->form(['posts/search', 'method' => 'post', 'autocomplete' => 'off', 'class' => 'navbar-form navbar-right']) ?>
             <div class="input-append">
