@@ -19,26 +19,22 @@
         ]
     );
 ?>
-
-<div class="form-group">
-    <label for="fieldUsername" class="col-sm-2 control-label">Username</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["username", "size" => 30, "class" => "form-control", "id" => "fieldUsername"]) ?>
-    </div>
+<div class="row">
+    <div class="col-lg-4 col-xs-12">Username</div>
+    <div class="col-lg-4 col-xs-12">Password</div>
 </div>
+<div class="row">
+        <div class="col-xs-12 col-lg-4">
+            <?php echo $this->tag->textField(["username", "size" => 30, "class" => "form-control", "id" => "fieldUsername", 'placeholder' => 'Username']) ?>
+        </div>
 
-<div class="form-group">
-    <label for="fieldPassword" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->passwordField(["password", "size" => 30, "class" => "form-control", "id" => "fieldPassword"]) ?>
-    </div>
+        <div class="col-xs-12 col-lg-4">
+            <?php echo $this->tag->passwordField(["password", "size" => 30, "class" => "form-control", "id" => "fieldPassword", 'placeholder' => 'Password']) ?>
+        </div>
+
+        <div class="col-xs-12 col-lg-4">
+            <?php echo $this->tag->submitButton(["Login", "class" => "btn btn-default"]) ?>
+            <?php echo $this->tag->linkTo(["users/new", "New user?"]) ?>
+        </div>
 </div>
-
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-        <?php echo $this->tag->submitButton(["Login", "class" => "btn btn-default"]) ?>
-        <?php echo $this->tag->linkTo(["users/new", "New user?"]) ?>
-    </div>
-</div>
-
 <?php echo $this->tag->endForm(); ?>
