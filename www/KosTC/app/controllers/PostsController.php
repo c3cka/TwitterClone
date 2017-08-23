@@ -280,7 +280,7 @@ class PostsController extends ControllerBase
         $comment->email = $this->request->getPost("email");
         $comment->url = $this->request->getPost("url");
         $comment->submitted = date("Y-m-d H:i:s");
-        $comment->publish = 0;
+        $comment->publish = 'No';
         $comment->save();
 
         if (!$comment->save()){
@@ -288,19 +288,21 @@ class PostsController extends ControllerBase
                 $this->flash->error($message);
             }
 
+            echo $comment->posts_id;
+
+            //$this->response->redirect('posts/show/'.$comment->posts_id);
             $this->dispatcher->forward([
-                'controller' => 'posts',
-                'action' => 'show',
-                'params' => array($comment->posts_id)
+               "controller" => "posts",
+               "action" => "show",
+               "params" => array($comment->posts_id)
             ]);
             return;
         }
 
         $this->flash->success("Your comment has been submitted.");
         $this->dispatcher->forward([
-                'controller' => 'posts',
-                'action' => 'index'
+            'controller' => 'posts',
+            'action' => 'index'
         ]);
-        return;
     }
 }

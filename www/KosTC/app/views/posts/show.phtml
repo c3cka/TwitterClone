@@ -41,26 +41,26 @@
                 <?php } ?><?php } ?>
             </div>
         </div>
-        <div class="row">
-            <h3>Leave a Comment</h3>
+    </div>
+    <div class="row">
+        <h3>Leave a Comment</h3>
+        <div>
+            <?= $this->tag->form(['posts/comment', 'method' => 'post']) ?>
             <div>
-                <?= $this->tag->form(['posts/comment', 'method' => 'post']) ?>
-                <?= $this->tag->hiddenField(['posts_id', 'value' => $post->id]) ?>
-                <div>
-                    <label for="title">Comment</label>
-                    <?= $this->tag->textArea(['body']) ?>
-                </div>
-                <div>
-                    <label for="title">Name</label>
-                    <?= $this->tag->textField(['name']) ?>
-                </div>
-                <div>
-                    <label for="title">Email</label>
-                    <?= $this->tag->textField(['email']) ?>
-                </div>
-                <?= $this->tag->submitButton(['Comment', 'class' => 'btn']) ?>
-                <?= $this->tag->endForm() ?>
+                <label for="title">Comment</label>
+                <?= $this->tag->textArea(['body']) ?>
             </div>
+            <div>
+                <label for="title">Name</label>
+                <?= $this->tag->textField(['name']) ?>
+            </div>
+            <div>
+                <label for="title">Email</label>
+                <?= $this->tag->textField(['email']) ?>
+            </div>
+            <?= $this->tag->hiddenField(['posts_id', 'value' => $post->id]) ?>
+            <?= $this->tag->submitButton(['Comment', 'class' => 'btn']) ?>
+            <?= $this->tag->endForm() ?>
         </div>
     </div>
 </div>

@@ -140,6 +140,7 @@ class Users extends \Phalcon\Mvc\Model
                 ]]
         ));
 
+        $this->keepSnapshots(true);
         $this->setSchema("phalconblog");
         $this->hasMany('id', 'Posts', 'users_id', ['alias' => 'Posts']);
     }

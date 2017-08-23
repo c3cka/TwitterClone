@@ -252,7 +252,7 @@ class UsersController extends ControllerBase
             return;
         }
 
-        $this->flash->success("user was updated successfully");
+        $this->flash->success("Your account was updated successfully");
 
         $this->dispatcher->forward([
             'controller' => 'users',

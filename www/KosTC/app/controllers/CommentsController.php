@@ -54,7 +54,8 @@ class CommentsController extends ControllerBase {
             $this->dispatcher->forward([
                     "controller" => "comments",
                     "action" => "index"
-                ]);
+            ]);
+            return;
         }
         $comment->id = $this->request->getPost("id");
         $comment->body = $this->request->getPost("body");
@@ -67,40 +68,53 @@ class CommentsController extends ControllerBase {
                 $this->flash->error($message);
             }
              $this->dispatcher->forward([
-                    "controller" => "comments",
-                    "action" => "edit",
-                    "params" => array($comment->id)
-                ]);
+                 "controller" => "comments",
+                 "action" => "edit",
+                 "params" => array($comment->id)
+             ]);
+            return;
         }
         $this->flash->success("comment was updated successfully");
-         $this->dispatcher->forward([
-                "controller" => "comments",
-                "action" => "index"
-            ]);
+        $this->dispatcher->forward([
+            "controller" => "comments",
+            "action" => "index"
+        ]);
     }
 
     public function deleteAction($id) {
         $comment = Comments::findFirst($id);
         if (!$comment) {
             $this->flash->error("comment was not found");
-             $this->dispatcher->forward([
-                    "controller" => "comments",
-                    "action" => "index"
-                ]);
+            $this->dispatcher->forward([
+                "controller" => "comments",
+                "action" => "index"
+            ]);
         }
         if (!$comment->delete()) {
             foreach ($comment->getMessages() as $message) {
                 $this->flash->error($message);
             }
-             $this->dispatcher->forward([
-                    "controller" => "comments",
-                    "action" => "search"
-                ]);
+            $this->dispatcher->forward([
+                "controller" => "comments",
+                "action" => "search"
+            ]);
         }
         $this->flash->success("comment was deleted successfully");
-         $this->dispatcher->forward([
-                "controller" => "comments",
-                "action" => "index"
-            ]);
+        $this->dispatcher->forward([
+            "controller" => "comments",
+            "action" => "index"
+        ]);
     }
+
+    public function getCommentsCount()
+    {
+        $query = $this->modelsManager->createBuilder()
+            ->from(array('comments'))
+            ->columns(array('count' => 'COUNT(id)'))
+            ->getQuery();
+
+        $result = $query->execute();
+        return $result[0]['count'];
+    }
+
 }
