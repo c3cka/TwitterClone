@@ -60,7 +60,6 @@ class CommentsController extends ControllerBase {
         $comment->body = $this->request->getPost("body");
         $comment->name = $this->request->getPost("name");
         $comment->email = $this->request->getPost("email", "email");
-        $comment->url = $this->request->getPost("url");
         $comment->publish = $this->request->getPost("publish");
 
         if (!$comment->save()) {

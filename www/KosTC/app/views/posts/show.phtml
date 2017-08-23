@@ -35,7 +35,7 @@
         <div class="comments">
             <h3>Comments</h3>
             <div class="comment">
-                <?php foreach ($post->comments as $comments) { if ($comments->publish == true) { ?>
+                <?php foreach ($post->comments as $comments) { if ($comments->publish == 'Yes') { ?>
                     <div><?= $comments->body ?></div>
                     <div><?= $comments->name ?> - <?= $comments->submitted ?></div>
                 <?php } ?><?php } ?>
