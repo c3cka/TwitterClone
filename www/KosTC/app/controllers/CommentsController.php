@@ -105,16 +105,4 @@ class CommentsController extends ControllerBase {
             "action" => "index"
         ]);
     }
-
-    public function getCommentsCount()
-    {
-        $query = $this->modelsManager->createBuilder()
-            ->from(array('comments'))
-            ->columns(array('count' => 'COUNT(id)'))
-            ->getQuery();
-
-        $result = $query->execute();
-        return $result[0]['count'];
-    }
-
 }

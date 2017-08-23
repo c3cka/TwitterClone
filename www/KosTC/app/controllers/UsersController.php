@@ -146,6 +146,7 @@ class UsersController extends ControllerBase
             #$this->tag->setDefault("password", $user->password );
             $this->tag->setDefault("name", $user->name);
             $this->tag->setDefault("email", $user->email);
+            $this->tag->setDefault("role", $user->role);
 
         }
     }

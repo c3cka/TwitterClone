@@ -269,6 +269,7 @@ class PostsController extends ControllerBase
             }
             $this->tag->prependTitle($post->title . " - ");
             $this->view->post = $post;
+            echo $post->id;
         }
     }
 
@@ -288,15 +289,6 @@ class PostsController extends ControllerBase
                 $this->flash->error($message);
             }
 
-            echo $comment->posts_id;
-
-            //$this->response->redirect('posts/show/'.$comment->posts_id);
-            $this->dispatcher->forward([
-               "controller" => "posts",
-               "action" => "show",
-               "params" => array($comment->posts_id)
-            ]);
-            return;
         }
 
         $this->flash->success("Your comment has been submitted.");
