@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
 #  config.vm.box = "web_dev"
   config.vm.box = "ubuntu/xenial64"
 #  config.vm.box = "phalconphp/xenial64"
+  config.vm.box_check_update = false
 
 ### NAME THE VM ###
   config.vm.provider "virtualbox" do |v|

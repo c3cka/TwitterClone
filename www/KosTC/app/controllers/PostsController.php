@@ -269,7 +269,6 @@ class PostsController extends ControllerBase
             }
             $this->tag->prependTitle($post->title . " - ");
             $this->view->post = $post;
-            echo $post->id;
         }
     }
 
@@ -292,8 +291,9 @@ class PostsController extends ControllerBase
             $this->dispatcher->forward([
                 'controller' => 'posts',
                 'action' => 'show',
-                'paramas' => [$comment->posts_id]
+                'params' => [$comment->posts_id]
             ]);
+            return;
 
         }
 
