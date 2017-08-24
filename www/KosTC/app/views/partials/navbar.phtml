@@ -27,7 +27,13 @@
                     <li class="navbar-text">Welcome, <?php echo $this->session->get('user_name'); ?> </li>
                 <?php } ?>
                 <?php if ($this->session->has("user_id") && $this->session->get('user_role') == 'Admin') { ?>
-                    <li><?= $this->tag->linkTo(['users/index', 'Users']); ?></li>
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><?= $this->tag->linkTo(['users/index', 'View']); ?></li>
+                            <li><?= $this->tag->linkTo(['users/new', 'Create']); ?></li>
+                        </ul>
+                    </li>
                     <li><?= $this->tag->linkTo(['comments/index', 'Comments']); ?></li>
                 <?php } ?>
                 <li class="dropdown">

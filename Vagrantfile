@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
 ###----- PUBLIC NETWORK ACCESS -----###
 ### AT WORK ###
 ###############
-#  config.vm.network "public_network", ip:"192.168.88.200"
+  config.vm.network "public_network", ip:"192.168.88.200"
   # bridge:“en0: Wi-Fi (AirPort)”,
 ###############
 ### AT HOME ###
