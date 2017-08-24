@@ -47,14 +47,15 @@
             <?php echo $page->current, "/", $page->total_pages ?>
         </p>
     </div>
-    <div class="col-sm-11">
-        <nav>
-            <ul class="pagination">
-                <li><?php echo $this->tag->linkTo("users/search", "First") ?></li>
-                <li><?php echo $this->tag->linkTo("users/search?page=" . $page->before, "Previous") ?></li>
-                <li><?php echo $this->tag->linkTo("users/search?page=" . $page->next, "Next") ?></li>
-                <li><?php echo $this->tag->linkTo("users/search?page=" . $page->last, "Last") ?></li>
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <ul class="pager">
+                <li><?= $this->tag->linkTo(['users/index', 'First']) ?></li>
+                <li><?= $this->tag->linkTo(['users/index?page=' . $page->before, 'Previous']) ?></li>
+                <li><?= $this->tag->linkTo(['users/index?page=' . $page->next, 'Next']) ?></li>
+                <li><?= $this->tag->linkTo(['users/index?page=' . $page->last, 'Last']) ?></li>
+                <li><?= $page->current . '/' . $page->total_pages ?></li>
             </ul>
-        </nav>
+        </div>
     </div>
 </div>

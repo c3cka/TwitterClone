@@ -19,7 +19,7 @@
             <div class="col-lg-12 col-xs-12">
                 <h2><?= $post->title ?></h2>
                 <div><?= $post->body ?></div>
-                <div><button class="btn btn-default"><?= $this->tag->linkTo(['posts/show/' . $post->id, 'Comment']); ?><span class="badge"><?php $com = Comments::find("posts_id = $post->id");  echo count($com) ?></span></button>
+                <div><button class="btn btn-default"><?= $this->tag->linkTo(['posts/show/' . $post->id, 'Comment']); ?><span class="badge"><?php $com = Comments::find("posts_id = $post->id AND publish = 'Yes'" );  echo count($com) ?></span></button>
                     <?php if ($this->session->has("user_id")) {
                         #$user_id = $this->session->get('user_id');
                         if ($this->session->get('user_id') == $post->users_id || $this->session->get('user_role') == 'Admin') { ?>
