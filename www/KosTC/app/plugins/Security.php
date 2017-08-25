@@ -97,5 +97,6 @@ class Security extends Plugin {
             ]);
             return false;
         }
+        return true;
     }
 }
