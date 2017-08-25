@@ -36,7 +36,7 @@ class Security extends Plugin {
                 $acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
             }
             $private = array(
-                'comments' => array('index', 'edit', 'delete','save'),
+                'comments' => array('save'),
                 'posts' => array('new', 'edit', 'save', 'create', 'delete'),
                 'users' => array('new', 'edit', 'save', 'create', 'logout')
             );
@@ -84,19 +84,6 @@ class Security extends Plugin {
         } else {
             $role = $this->session->get('user_role');
         }
-        /**
-       if ($this->session->has('user_id')){
-           $role = $this->session->get('user_role');
-       }
-       else {
-           $role = 'Guests';
-       }**/
-        /**
-        $role = $this->session->get('user_role');
-        echo $role;
-        if (!$role){
-            $role = 'Guests';
-        }**/
         $controller = $dispatcher->getControllerName();
         $action = $dispatcher->getActionName();
         $acl = $this->getAcl();
