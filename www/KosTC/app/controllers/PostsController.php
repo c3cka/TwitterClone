@@ -2,6 +2,7 @@
  
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
+use Phalcon\Db\Adapter\Pdo;
 
 
 class PostsController extends ControllerBase
@@ -47,7 +48,6 @@ class PostsController extends ControllerBase
             'limit'=> 10,
             'page' => $numberPage
         ]);
-
         $this->view->page = $paginator->getPaginate();
     }
 

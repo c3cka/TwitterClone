@@ -1,5 +1,8 @@
 {
     "require-dev": {
         "phalcon/devtools": "~3.2"
+    },
+    "require": {
+        "mpdf/mpdf": "^6.1"
     }
 }

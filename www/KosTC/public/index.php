@@ -34,6 +34,7 @@ define('APP_PATH', BASE_PATH . '/app');
      * Include Autoloader
      */
     include APP_PATH . '/config/loader.php';
+    include BASE_PATH . '/vendor/autoload.php';
 
     /**
      * Handle the request
